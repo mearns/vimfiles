@@ -1,0 +1,19 @@
+
+extends _common_
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+endglobal
+
+
+snippet @jsx "Create the @jsx marker for React.DOM (must be first comment in the file or block!)"
+/** @jsx React.DOM */
+endsnippet
+
+
+

@@ -1,0 +1,158 @@
+
+extends _common_
+extends rst
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+endglobal
+
+snippet prop "Simple property method"
+@property
+def ${1:pname}(self):
+	"""
+	The value of the ``$1`` property.
+	"""
+	return ${2:self._$1}
+$0
+endsnippet
+
+snippet geta "Get attr"
+getattr(${1:obj}, ${2:"${3:attr}"}`!p comma(t[4])``!p space(t[4])`${4:None})$0
+endsnippet
+
+snippet seta "Set attr"
+setattr(${1:obj}, ${2:"${3:attr}"}, ${4:value})$0
+endsnippet
+
+snippet hasa "Has attr"
+hasattr(${1:obj}, ${2:"${3:attr}"})$0
+endsnippet
+
+snippet [c "list comprehension"
+[ ${3:(${4:$1})} for ${1:e} in ${2:iterable}`!p space(t[5])`${5:if ${6:(${7:$1})}} ]
+endsnippet
+
+snippet (c "generator comprehension"
+( ${3:(${4:$1})} for ${1:e} in ${2:iterable}`!p space(t[5])`${5:if ${6:(${7:$1})}} )
+endsnippet
+
+snippet t( "tuple"
+tuple($1)$0
+endsnippet
+
+snippet tc "Tuple comprehension"
+tuple( ${3:(${4:$1})} for ${1:e} in ${2:iterable}`!p space(t[5])`${5:if ${6:(${7:$1})}} )
+endsnippet
+
+snippet {c "Dictionary comprehension"
+{ ${3:(${4:$1})}: ${5:(${6:$1})} for ${1:e} in ${2:iterable}`!p space(t[7])`${7:if ${8:(${9:$1})}} }
+endsnippet
+
+
+snippet [n "list comprehension (multiline)"
+[
+	${3:(${4:$1})}
+	for ${1:e} in ${2:iterable}
+	${5:if ${6:(${7:$1})}}
+]
+endsnippet
+
+snippet (n "generator comprehension (multiline)"
+(
+	${3:(${4:$1})}
+	for ${1:e} in ${2:iterable}
+	${5:if ${6:(${7:$1})}}
+)
+endsnippet
+
+snippet tn "Tuple comprehension (multiline)"
+tuple(
+	${3:(${4:$1})}
+	for ${1:e} in ${2:iterable}
+	${5:if ${6:(${7:$1})}}
+)
+endsnippet
+
+snippet {n "Dictionary comprehension"
+{
+	${3:(${4:$1})}: ${5:(${6:$1})}
+	for ${1:e} in ${2:iterable}
+	${7:if ${8:(${9:$1})}}
+}
+endsnippet
+
+
+snippet pr "print '...'"
+print '$0'
+endsnippet
+
+snippet ii "iteritems()"
+iteritems()$0
+endsnippet
+
+snippet for "for loop" b
+for ${1:i} in ${2:xrange(${3:${5:0}`!p snip.rv = ', ' if len(t[5].strip()) else ''`${4:limit}`!p comma(t[6])`${6:1}})}:
+`!p block()`$0
+endsnippet
+
+
+snippet #! "Shebang header for python scripts" b
+#! /usr/bin/env python
+# vim: set fileencoding=utf-8: encoding=utf-8:
+$0
+endsnippet
+
+snippet main "if __main__ block" b
+if __name__ == '__main__':
+`!p block()`$0
+endsnippet
+
+snippet LOG "LOG = logging.getLogger( ... )" b
+import logging
+if ${1:1}:
+	LOG = logging.getLogger(__name__)
+else:
+	LOG = logging.getLogger("__debug__")
+$0
+endsnippet
+
+snippet dfn "Sphinx definition role"
+:dfn:\`${1}\`$0
+endsnippet
+
+snippet t "Ternary operator"
+${3:(${4:True})} if ${1:(${2:1 == 1})} else ${5:(${6:False})}
+endsnippet
+
+snippet argp "Argparse"
+import argparse
+
+parser = argparse.ArgumentParser(
+	description='${1:Description of program.}',
+)
+
+#Non option arguments
+parser.add_argument(
+	'input',
+	metavar='INPUT',
+	type=str,
+	nargs=1,
+	help='The input file',
+)
+
+#Options
+parser.add_argument(
+	'-s', '--long-option',
+	dest='long_opt'.
+	help='An option with an argument.'
+)
+
+args = parser.parse_args()
+
+endsnippet
+

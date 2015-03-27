@@ -1,0 +1,35 @@
+
+extends _common_
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+endglobal
+
+snippet << "Create a oneline element"
+<${1:${2:ns}:${3:tag}}`!p space(t[10])`${10:attrs}>$0</$1>
+endsnippet
+
+snippet <<< "Create a multi-line element"
+<${1:${2:ns}:${3:tag}}`!p space(t[10])`${10:attrs}>
+	$0
+</$1>
+endsnippet
+
+snippet attr "Create an attribute"
+${1:name}='${2:value}'
+endsnippet
+
+
+snippet CDATA "create a CDATA section"
+<![CDATA[
+
+	$0
+
+]]>
+endsnippet
+

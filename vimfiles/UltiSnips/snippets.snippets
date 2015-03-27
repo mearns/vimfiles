@@ -1,0 +1,16 @@
+
+snippet snip "Create a snippet"
+`!p snip.rv = 'snippet'` ${1:trigger} "${2:description}"
+$0
+`!p snip.rv = 'endsnippet'`
+endsnippet
+
+snippet ${ "Create a plceholder in a snippet"
+`!p snip.rv = '${'`${1:1}:${2:default}}$0
+endsnippet
+
+snippet $py "Create a python interpolation"
+`!p snip.rv = chr(96) + '!p'` ${2:snip.rv = ${1:t[1]}}`!p snip.rv = chr(96)`
+endsnippet
+
+

@@ -1,0 +1,45 @@
+
+extends _common_
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+endglobal
+
+snippet <
+<${1}>$0
+endsnippet
+
+snippet :term "A gloassry term"
+:term:\`${1}\`$0
+endsnippet
+
+snippet :dfn "The definitive occurrence of a term"
+:dfn:\`${1}\`$0
+endsnippet
+
+snippet :ref "Reference to a label"
+:ref:\`${1}\`$0
+endsnippet
+
+snippet ":env(?:v?ar)?" "An envvar role" r
+:envvar:\`${1}\`$0
+endsnippet
+
+snippet :abbr "An abbreviation"
+:abbr:`${1:ABBR} (${2:Stands For})`
+endsnippet
+
+snippet :label "Defint a label/anchor in a document."
+.. _${1:my-label}:
+
+$0
+endsnippet
+
+
+
+

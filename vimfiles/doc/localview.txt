@@ -1,0 +1,63 @@
+*localview.txt* Plugin for storing and loading views from local files
+
+Vim-views are essentially just vim scripts that re-establish the current
+view of a file, including (among other things), the scroll position, the
+folds, current directory, and mappings. Vim has built in functionality to
+save and restore up to ten different views for each file using the |:mkview|
+and |:loadview| commands. However, these files are generally stored in an
+installation dependent location. The purpose of this plugin is to make it
+easy (and automatic) to save these views in the same directory as the file
+itself, thereby making them much more easily portable. 
+
+							*localview:overview*
+OVERVIEW
+
+Local view stores "settings" (not Vim settings, just the generic sense of the
+word) for each open buffer in buffer-local variables. There are two such
+settings: whether or not local views are enabled, and the file to use to store
+local views. 
+
+When local views are enabled for a buffer, the current view is saved to the
+appropriate file everytime the file is saved. By default, the view
+file is a file in the same directory (hence "local") which has the same name
+as the file in the buffer, but starts with a dot (so it will generally be a
+hidden file on most systems), and ends with ".lv.vim" (i.e., local-view.vim).
+For example >
+	foo.bar
+<
+has a default local-view file of >
+	.foo.bar.lv.vim
+<
+
+The other thing this plugin it does is to try to load a local-view when new
+buffers are opened. It does this by looking for an appropriately named file
+that it is able to read. If it finds one, then it enables local-views for this
+buffer, and loads the file it found. As a convenience, if the default file
+described above is not found, it will also check for a similarly named file,
+but without the leading dot. This allows you to more easily use non-hidden
+local-view files, which may be helpful if, for instance, you want to copy the
+view files from location to location (which is, after all, the primary
+motivation behind this plugin). You can also easily switch to using this
+alternate local-view file with the |:Uselocalviewalt| command.
+
+					*localview:Commands*
+COMMANDS
+
+This plugin adds the following commands, if not already defined. 
+
+					*:Enablelocalview*
+					*:Enlocalview*
+					*:Enlv*
+					*:Enlocview*
+:Enlocalview
+:Enlocview
+:Enlv
+:Enablelocalview	Enables local views for the current buffer. This means
+			that everytime the buffer is written, it's view will
+			be saved to the appropriate file.
+
+					*:Uselocalviewalt*
+					*:Uselvalt*
+					*Uselocalviewalt*
+					*Uselvalt*
+:Uselocalviewalt	

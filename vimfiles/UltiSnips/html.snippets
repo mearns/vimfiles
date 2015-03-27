@@ -1,0 +1,85 @@
+
+extends xml
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+endglobal
+
+snippet cssl "Link to an external CSS stylesheet"
+<link rel='stylesheet' type='text/css' href='${1:${3:/res/css/}${5:${6:`!p snip.rv = snip.basename`}.css}}' />
+endsnippet
+
+
+snippet jsl "Link to an external javascript"
+<script type='text/javascript' src='${1:${3:/res/js/}${5:${6:`!p snip.rv = snip.basename`}.js}}' ></script>
+endsnippet
+
+snippet require "Load require.js"
+<script data-main='${1:${3:/res/js/}${5:${6:`!p snip.rv = snip.basename`}.js}}' src='${20:$3}${21:require.js}' type='application/javascript'></script>
+endsnippet
+
+snippet css "Create inline CSS style block"
+<style type='text/css'>
+/* <![CDATA[ */
+
+	$0
+
+/* ]]> */
+</style>
+endsnippet
+
+snippet js "Create inline Javascript block"
+<script type='text/javascript'>
+// <![CDATA[
+
+	$0
+
+// ]]>
+</script>
+endsnippet
+
+snippet jsx "Create inline JSX block"
+<script type='text/jsx'>
+/** @jsx React.DOM */
+// <![CDATA[
+
+	$0
+
+// ]]>
+</script>
+endsnippet
+
+snippet @jsx "Create the @jsx marker for React.DOM (must be first comment in the file or block!)"
+/** @jsx React.DOM */
+endsnippet
+
+
+snippet par "Create a paragraph element"
+<p ${1}>
+	$0
+</p>
+endsnippet
+
+snippet <b "create a bold element"
+<strong${1}>$0</strong>
+endsnippet
+
+snippet <em "create a emphasized element"
+<em${1}>$0</em>
+endsnippet
+
+snippet <sp "Create a span element"
+<span${1}>$0</span>
+endsnippet
+
+snippet <d "Create a div element"
+<div ${1:attrs}>
+	$0
+</div>
+endsnippet
+

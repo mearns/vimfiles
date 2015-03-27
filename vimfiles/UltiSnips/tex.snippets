@@ -1,0 +1,133 @@
+
+extends _common_
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+endglobal
+
+snippet chap "Create a chapter heading"
+%-------------------------------------------------------------------------------------------------------------
+% Chapter
+%-------------------------------------------------------------------------------------------------------------
+\chapter{${1:Chapter Title}}
+\label{sect:${2:`!p slugify(t[1])`}}
+
+$0
+endsnippet
+
+snippet sect "Create a section heading"
+%-------------------------------------------------------------------------------------------------------------
+% Section
+%-------------------------------------------------------------------------------------------------------------
+\section{${1:Section Title}}
+\label{sect:${2:`!p slugify(t[1])`}}
+
+$0
+endsnippet
+
+snippet use "Use a package"
+\usepackage{${1:package-name}}$0
+endsnippet
+
+snippet fig "Insert a figure"
+\begin{figure}${2:[${1:htbpH!}]}
+	\begin{center}
+		$0
+	\end{center}
+	${5:\caption{${4}}}
+	\label{fig:${3:label}}
+\end{figure}
+endsnippet
+
+
+snippet graphic "Include a graphic"
+\includegraphics[${2:width=0.8\textwidth}]{${1:filename}}$0
+endsnippet
+
+snippet $$ "Create a math paragraph"
+$$
+$0
+$$
+endsnippet
+
+snippet \equ "Create an equation"
+\begin{equation}
+
+$0
+
+\label{eq:${1:label}}
+\end{equation}
+endsnippet
+
+snippet \begin "Open an environment"
+\begin{${1:environment}}
+$0
+\end{$1}
+endsnippet
+
+snippet \align "Open an align environment"
+\begin{align}
+${1:LHS}
+	&${2:=} ${3:RHS}
+${4:\nonumber}$0
+\end{align}
+endsnippet
+
+snippet aline "Add a line to an align environment"
+\\
+${1:LHS}
+	&${2:=} ${3:RHS}
+${4:\nonumber}$0
+endsnippet
+
+snippet \label "Add a label"
+\label{${1:eq}:${2:label}}$0
+endsnippet
+
+snippet \frac "Create a fraction"
+\frac{ ${1} }{ ${2} }$0
+endsnippet
+
+snippet \bf "Bold text"
+\textbf{ ${1} }$0
+endsnippet
+
+snippet \em "Emphasize text"
+{\em ${1}}$0
+endsnippet
+
+snippet \( "Create parens"
+\left( ${1} \right) $0
+endsnippet
+
+snippet \[ "Create square brackets"
+\left[ ${1} \right] $0
+endsnippet
+
+snippet \{ "Create curly brackets"
+\left{ ${1} \right} $0
+endsnippet
+
+snippet \func "Create a mathematical function"
+\mathrm{ ${1:f} }\left( ${2:x} \right) $0
+endsnippet
+
+snippet \sum "Create a summation"
+\sum_{ ${1:i=0} }^{ ${2:N} } $0
+endsnippet
+
+snippet \int "Create an integral"
+\int_{ ${1:0} }^{ ${2:\infty} } $0
+endsnippet
+
+snippet \inf "Infinity"
+\infty $0
+endsnippet
+
+
+

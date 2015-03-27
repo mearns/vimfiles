@@ -1,0 +1,77 @@
+
+snippet DLIB "define a library"
+.LIB ${1:libname}
+* The "$1" library
+
+$0
+
+.ENDL
+endsnippet
+
+snippet LIB "Include a library"
+.LIB ${1:libfile}.${2:lib} ${3:libname}
+endsnippet
+
+
+snippet SUB "Define a subcircuit"
+.SUBCKT ${1:CIRCUIT_NAME}	${2:NODE1} ${3:...}
+
+$0
+
+.ENDS
+endsnippet
+
+snippet X "Use a subcircuit"
+X${1:ElementId} ${3:NODE1} ${4:...} ${2:CIRCUIT}
+endsnippet
+
+snippet OPT "Set an option"
+.OPTIONS ${1:OPTNAME} = ${2:VALUE}
+endsnippet
+
+snippet PAR "Set a parameter"
+.PARAM ${1:NAME} = ${2:VALUE}
+endsnippet
+
+snippet CSP "Set a control parameter"
+.CSPARAM ${1:NAME} = ${2:VALUE}
+endsnippet
+
+snippet CTRL "Run controls commands"
+.CONTROl
+$0
+.ENDC
+endsnippet
+
+snippet TRAN "Invoke transient analysis from within a CTRL block."
+tran ${1:\$&TRAN_ISTEP} ${2:\$&STOP_TIME}
+endsnippet
+
+snippet { "Wrap a parameter expression in curly braces"
+{ $0 }
+endsnippet
+
+snippet R "Create a resistor"
+R${1:NAME} ${2:NODE1} ${3:NODE2} ${4:VALUE}Ohm
+endsnippet
+
+snippet C "Create a capacitor"
+C${1:NAME} ${2:POS_NODE} ${3:NEG_NODE} ${4:VALUE}
+endsnippet
+
+snippet V "Create an independent voltage source"
+V${1:NAME} ${2:POS_NODE} ${3:NEG_NODE} ${4:TYPE} ${5:( $0 )}
+endsnippet
+
+snippet DC "Create a DC voltage source"
+V${1:NAME} ${2:POS_NODE} ${3:NEG_NODE} DC ${4:VAL}V
+endsnippet
+
+snippet VDD "Create a positive DC voltage source"
+V${2:DD} ${3:`!p snip.rv = 'V' + t[2].lower()`} ${4:0} DC ${1:VAL}V
+endsnippet
+
+snippet VSS "Create a negative DC voltage source"
+V${2:SS} ${3:`!p snip.rv = 'V' + t[2].lower()`} ${4:0} DC -${1:VAL}V
+endsnippet
+

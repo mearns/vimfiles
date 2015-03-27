@@ -1,0 +1,3 @@
+This directory goes under $VIM. It defines all the stuff that would normally
+go in $VIMRUNTIME (which is probably like $VIM/vim73), but that shouldn't be
+overwritten when the package is updated.

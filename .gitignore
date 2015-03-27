@@ -1,0 +1,6 @@
+
+*.sw[mnop]
+
+.svn
+_viminfo
+vim74

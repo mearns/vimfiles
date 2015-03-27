@@ -1,0 +1,409 @@
+
+extends _common_
+
+
+global !p
+
+import re
+
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+
+def auto_doc(snip):
+	"""
+	Attempts to generate automatic documentation for the next thing to appear below
+	the snippet, by reading the file contents.
+	"""
+	start = vim.current.range.start
+	text = ' '.join(vim.current.buffer[start:start+20]).strip()
+
+	tokens = [token for token in re.split(r'(\s+|\W)', text) if token.strip()]
+	try:
+		oparen = tokens.index('(')
+		depth = 0
+		for i in xrange(oparen+1, len(tokens)):
+			if tokens[i] == ')':
+				if depth == 0:
+					break
+				else:
+					depth -= 1
+			if tokens[i] == '(':
+				depth += 1
+		args = tokens[oparen+1:i]
+		arg_str = ' '.join(args)
+
+		if oparen > 0:
+			func_name = tokens[oparen-1]
+		else:
+			raise ValueError("Could not find function name")
+
+		rtype = None
+		if oparen > 1:
+			rtype = ' '.join(tokens[:oparen-1])
+
+		snip += '/**'
+		snip += ' * Function: ' + func_name
+		snip += ' * '
+		func_args_doc(arg_str)
+		snip += ' * '
+		if rtype is not None:
+			func_ret_doc(rtype)
+		snip += ' * '
+		snip += ' */'
+
+	except ValueError:
+		#Could not parse function.
+		snip += '/**'
+		snip += ' *'
+		snip += ' */'
+
+
+def func_ret_doc(tipe):
+	"""
+	Generates natural docs comment-portion for the return type given by the string.
+	"""
+	tokens = tipe.split()
+	tipe = []
+	for token in tokens:
+		if token not in ("inline", "__INLINE__", "static", "const", "volatile", "auto"):
+			tipe.append(token)
+
+	if len(tipe):
+		tipe = " ".join(tipe)
+	else:
+		tipe = "int"
+
+	if tipe != "void":
+		snip.rv += "\n" + "\n".join(snip.mkline(" * " + line) for line in (
+			"Returns:",
+			"  This function returns a value of type <%s>." % tipe,
+		))
+
+def func_args_doc(types):
+	"""
+	Generates natural docs comment-portion for the args given by the string.
+	"""
+	types = types.strip()
+	if len(types) and types != "void":
+		types = [t.strip() for t in types.split(',')]
+		args = []
+		for t in types:
+			parts = t.rsplit(' ', 1)
+			if len(parts) > 1:
+				t = parts[0]
+				name = parts[1]
+				while name.startswith('*'):
+					t += '*'
+					name = name[1:]
+				args.append(snip.mkline(" *  %s - %s" % (name, t)))
+
+		if args:
+			snip.rv += "\n".join([snip.mkline("\n * Arguments:")] + args)
+
+import os.path
+def default_type_name():
+	fn = os.path.splitext(snip.fn)[0]
+	if fn:
+		snip.rv = fn
+	else:
+		snip.rv = 'name'
+
+def do_once(func, *args, **kwargs):
+	if not snip.c:
+		return func(*args, **kwargs)
+
+endglobal
+
+snippet DEBUG "Create a debug printf macro"
+/*
+ * Define LOCAL_DEBUG definition to turn on debugging in this module, or define DEBUG_SCHEDULER or DEBUG__ALL in project settings or command line.
+ * If NODEUBG or NODEBUG_PRINTF is defined (usually in project settings or command line), then debugging won't be enabled.
+ */
+//#define LOCAL_DEBUG
+
+/*
+ * Define LOCAL_DEBUG_VERBOSE or define DEBUG__OPT_PRINTF_VERBOSE to use more verbose (CSV) debug printing.
+ */
+//#define LOCAL_DEBUG_VERBOSE
+
+/**
+ * Define LOCAL_DEBUG_ALL DEBUG__OPT_ALL to enable all debugging print statements in the file, instead of section
+ * by section, as described below.
+ */
+#define LOCAL_DEBUG_ALL
+
+/**
+ * To enable debugging for individual sections of code, redefine DBG at the start of the section to DODBG_,
+ * and redefine it to DEFDBG_ at the end of the section. Debug printing in general still needs to be enabled
+ * as described under <LOCAL_DEBUG>.
+ *
+ * To disable debugging for individual sections of code, redefine DBG at the start of the section to DONTDBG_,
+ * and redefine it to DEFDBG_ at the end of the section.
+ */
+#define DBG DEFDBG_
+
+#if (defined(LOCAL_DEBUG) || defined(${1:`!p
+import os.path
+snip.rv = 'DEBUG_' + re.sub(r'[^A-Za-z0-9]+', '_', os.path.splitext(snip.fn)[0]).upper()
+`}))${2: && !defined(${3:NODEBUG}) && !defined(${4:NODEBUG_PRINTF})}
+	#include <stdio.h>
+	#if defined(LOCAL_DEBUG_VERBOSE) || defined(DEBUG__OPT_PRINTF_VERBOSE)
+		#define DODBG_(fmt, ...)	\
+			fprintf(${5:stdout}, ${6:"#DBG:, "} ${7:__FILE__} ", %d, " fmt "\n", __LINE__, ## __VA_ARGS__)
+	#else
+		#define DODBG_(fmt, ...)	\
+			fprintf($5, "${8:`!p snip.rv = snip.fn`}:%d: " fmt "\n", __LINE__, ## __VA_ARGS__)
+	#endif
+#else
+	#define DODBG_(fmt, ...)	\
+		((void)0)
+#endif
+#define DONTDBG_(fmt, ...)	\
+	((void)0)
+#if defined(LOCAL_DEBUG_ALL)
+	#define DEFDBG_ DODBG_
+#else
+	#define DEFDBG_ DONTDBG_
+#endif
+endsnippet
+
+snippet DBGON "Turn on debugging for a section of code"
+#undef DBG
+#define DBG DODBG_
+endsnippet
+
+snippet	DBGOFF "Turn off debugging for a section of code"
+#undef DBG
+#define DBG DONTDBG_
+endsnippet
+
+snippet DBGDEF "Reset debugging back to file default"
+#undef DBG
+#define DBG DEFDBG_
+endsnippet
+
+snippet hr "horizontal rule or divider"
+/${1:/}`!p snip.rv = t[1][-1]*(9-len(t[1]))`${2}`!p snip.rv = t[1][-1]*(76-max(10, len(t[1]))-len(t[2]))`/
+$0
+endsnippet
+
+snippet Inc "#include <...>"
+#include <${1:stdio}${2:.h}>
+endsnippet
+
+
+snippet def "#define ..."
+#define ${1:`!p snip.rv = snip.v.text.rstrip() if len(snip.v.text) else 'NAME'`}`!p snip.rv = ' ' if len(t[2]) else ''`${2:VALUE}${0}
+endsnippet
+
+snippet ifndef "#ifndef ... #define ... #endif"
+#ifndef ${1/([A-Za-z0-9_]+).*/$1/}
+	#define ${1:NAME} ${2:value}
+#endif
+endsnippet
+snippet "#ifndef" "#ifndef ... #define ... #endif"
+#ifndef ${1/([A-Za-z0-9_]+).*/$1/}
+	#define ${1:NAME} ${2:value}
+#endif
+endsnippet
+snippet Def "#ifndef ... #define ... #endif"
+#ifndef ${1/([A-Za-z0-9_]+).*/$1/}
+	#define ${1:NAME} ${2:value}
+#endif
+endsnippet
+
+snippet #if
+#if ${1:FOO}
+	${2}
+#endif
+endsnippet
+
+snippet main "main()"
+int main(int argc, char *argv[])
+{
+`!p block()`$0
+	return 0;
+}
+endsnippet
+
+snippet for "for loop"
+for (${3:i} = ${2:0}; $3 < ${1:count}; ${4:$3${5:++}})
+{
+`!p block()`$0
+}
+endsnippet
+
+snippet while "while loop"
+while (${1:1}) {
+`!p block()`$0
+}
+endsnippet
+
+snippet do "do...while"
+do {
+`!p block()`$0
+} while(${1});
+endsnippet
+
+snippet if "if ..."
+if (${1:1}) {
+`!p block()`$0
+}
+endsnippet
+
+snippet el "else ..."
+else {
+`!p block()`$0
+}
+endsnippet
+snippet else "else ..."
+else {
+`!p block()`$0
+}
+endsnippet
+
+snippet elif "else if ..."
+else if ( ${1:1} ) {
+`!p block()`$0
+}
+endsnippet
+
+snippet ife "if...else..."
+if (${1:1}) {
+${1:`!p block()`}${2}
+} else {
+	${3}
+}
+endsnippet
+
+snippet ifeif "if...else if..."
+if (${1:1}) {
+${1:`!p block()`}${2}
+} else if (${3:1}) {
+	${4}
+}
+endsnippet
+
+snippet ifeife "if...else if...else"
+if (${1:1}) {
+${1:`!p block()`}${2}
+} else if (${3:1}) {
+	${4}
+} else {
+	${5}
+}
+endsnippet
+
+snippet once "Include header once only guard"
+#ifndef ${1:`!p
+if not snip.c:
+	snip.rv = re.sub(r'[^A-Za-z0-9]+','_', snip.fn).upper()
+else:
+	snip.rv = snip.c`}
+#define $1
+
+${0}
+
+#endif //end inclusion filter
+
+endsnippet
+
+#Tertiary
+snippet t
+(( ${1:1} ) ? ( ${2:"true"} ) : ( ${3:"false"} ))
+endsnippet
+
+
+
+snippet doc "Add a doc comment for the next thing down."
+`!p do_once(auto_doc, snip) `
+endsnippet
+
+snippet func "A function (with doc-comments)"
+/**
+ * Function: ${1:frobnicate}
+ * ${2}`!p func_args_doc(t[4])``!p func_ret_doc(t[3])`
+ */
+${3:void} $1 ( ${4:void} )
+{
+`!p block()`$0
+}
+endsnippet
+
+snippet bfunc "A bare function (without doc-comments)"
+${2:void} ${1:frobnicate} ( ${3:void} )
+{
+`!p block()`$0
+}
+endsnippet
+
+# Function Declaration
+snippet fund "A function declaration (with doc-comments)"
+/**
+ * Function: ${1:frobnicate}
+ * ${2}`!p func_args_doc(t[4])``!p func_ret_doc(t[3])`
+ */
+${3:void} $1 ( ${4:void} );
+endsnippet
+
+snippet bfund "A bare function declaration (without doc-comments)"
+${2:void} ${1:frobnicate} ( ${3:void} );
+endsnippet
+
+snippet td "A typedef"
+typedef ${2:int} ${1:mytype_t};
+endsnippet
+
+
+snippet tfp "Typedef for a function pointer"
+typedef ${2:int} (*${1:frobnicate_cb})( ${3:void} );
+endsnippet
+
+snippet fp "Function pointer"
+${2:int} (*${1:name})( ${3:void} )
+endsnippet
+
+snippet st "struct definition"
+struct ${1:`!p do_once(default_type_name)`} {
+	${2}
+}${3};
+endsnippet
+
+snippet union "union definition"
+union ${1:`!p do_once(default_type_name)`} {
+	${2}
+}${3};
+endsnippet
+
+snippet tds "Typedef struct definition"
+typedef ${3}struct ${4:$1 }{
+	${0}
+} ${1:`!p do_once(default_type_name)`}${2:_t};
+endsnippet
+
+snippet tdu "Typedef union definition"
+typedef ${3}union ${4:$1 }{
+	${0}
+} ${1:`!p do_once(default_type_name)`}${2:_t};
+endsnippet
+
+
+snippet enum "enum definition"
+enum ${1:`!p do_once(default_type_name)`}`!p space(t[1])`{
+	${3:`!p snip.rv = t[1].upper()`}${5:_}${0:first},
+
+	${4:$3_COUNT}
+}${2};
+endsnippet
+
+snippet tde "typedef enum definition"
+typedef ${3}enum ${4:$1}`!p space(t[1])`{
+	${5:`!p snip.rv = t[1].upper()`}${7:_}${0:first},
+
+	${6:$5_COUNT}
+} ${1:`!p do_once(default_type_name)`}${2:_t};
+endsnippet
+
+
