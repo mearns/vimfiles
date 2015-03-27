@@ -27,7 +27,7 @@ function! FindCommandLine()
             "Found the command line
             return l:cmdlineno
         endif
-        if match(l:line, s:re_output) < 0:
+        if match(l:line, s:re_output) < 0
             "Found a non-output line, so we can't find a command line.
             return 0
         endif
@@ -66,15 +66,9 @@ endfunction
  
 " Execute the line under the cursor, if it's a command.
 function! ExeCurrentLine()
-    "XXX Use FindCommandLine to get the line.
-    let l:lineno = line('.')
-    let l:command = ''
+    let l:lineno = FindCommandLine()
     let l:line = getline(l:lineno)
     let l:command = substitute(l:line, s:re_cmd, '', '')
-    if l:command == l:line
-        echoerr "Selected line is not a command line."
-        return
-    endif
 
     call ClearOutputAfterCurrentLine()
 
