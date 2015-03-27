@@ -14,7 +14,7 @@ syn match cmdLineCmdArgs    '\(^>\s*\S*\s\+\)\@<=.*'
 syn match cmdLineCmd    '\(^>\s*\)\@<=\S*'
 syn match cmdLinePrompt '^>\s*'
 
-syn region cmdLineBlock start="^>\s*.*" end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 fold keepend contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutput
+syn region cmdLineBlock start="^>\s*.*" end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 keepend contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutput
 syn region cmdLineOutput start='^\s\{4}' end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 fold contained contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt
 
 

@@ -47,6 +47,9 @@ function! ClearOutputAfterCurrentLine()
 
     "Delete all the output from this command.
     call cursor(l:cmdlineno+1, 1)
+
+    "Make sure folds are expanded.
+    normal zO
     while 1
         let l:lineno = line('.')
         if l:lineno == l:cmdlineno
@@ -83,9 +86,10 @@ function! ExeCurrentLine()
         call append(l:lineno, s:output_leader . l:line)
         let l:lineno += 1
     endfor
+
 endfunction
 
-nnoremap <silent> <buffer> <C-CR> :call ExeCurrentLine()<CR>
+nnoremap <silent> <buffer> <C-CR> :call ExeCurrentLine()<CR><C-l>
 
 "
 "command! -buffer -nargs=1 SC execute s:SearchColumn('<args>')|normal! n
