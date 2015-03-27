@@ -67,6 +67,11 @@ endfunction
 " Execute the line under the cursor, if it's a command.
 function! ExeCurrentLine()
     let l:lineno = FindCommandLine()
+    if l:lineno == 0
+        echoerr "Cannot find command line."
+        return
+    endif
+
     let l:line = getline(l:lineno)
     let l:command = substitute(l:line, s:re_cmd, '', '')
 
@@ -80,7 +85,7 @@ function! ExeCurrentLine()
     endfor
 endfunction
 
-nmap <silent> <buffer> <C-CR> :call ExeCurrentLine()<CR>
+nnoremap <silent> <buffer> <C-CR> :call ExeCurrentLine()<CR>
 
 "
 "command! -buffer -nargs=1 SC execute s:SearchColumn('<args>')|normal! n
