@@ -41,6 +41,8 @@ hi BT7	guifg=#D0D0D0 guibg=#262636
 hi BT8	guifg=#D0D0D0 guibg=#262636
 hi BT9	guifg=#D0D0D0 guibg=#262636
 
+hi link cmdLineOutput cmdLineOutputDark
+
 hi OL4 guifg=violet ctermfg=magenta
 
 " highlight groups

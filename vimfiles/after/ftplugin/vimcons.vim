@@ -37,7 +37,7 @@ function! FindCommandLine()
 endfunction
 
 " Clear the command output following the current line.
-function! ClearOutputAfterCurrentLine()
+function! ClearOutputAtCurrentLine()
 
     let l:cmdlineno = FindCommandLine()
     if l:cmdlineno == 0
@@ -78,7 +78,7 @@ function! ExeCurrentLine()
     let l:line = getline(l:lineno)
     let l:command = substitute(l:line, s:re_cmd, '', '')
 
-    call ClearOutputAfterCurrentLine()
+    call ClearOutputAtCurrentLine()
 
     let l:output = system(l:command)
     let l:olines = split(l:output, '\n', 1)
@@ -91,32 +91,5 @@ endfunction
 
 nnoremap <silent> <buffer> <C-CR> :call ExeCurrentLine()<CR><C-l>
 
-"
-"command! -buffer -nargs=1 SC execute s:SearchColumn('<args>')|normal! n
+nnoremap <silent> <buffer> <C-Del> :call ClearOutputAtCurrentLine()<CR><C-l>
 
-" 
-"nnoremap <silent> <buffer> H :call <SID>HighlightPrevColumn()<CR>
-"nnoremap <silent> <buffer> L :call <SID>HighlightNextColumn()<CR>
-"nnoremap <silent> <buffer> J <Down>:call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> K <Up>:call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> <C-f> <PageDown>:call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> <C-b> <PageUp>:call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> <C-d> <C-d>:call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> <C-u> <C-u>:call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> 0 :let b:csv_column=1<CR>:call <SID>Highlight(b:csv_column)<CR>
-"nnoremap <silent> <buffer> $ :let b:csv_column=b:csv_max_col<CR>:call <SID>Highlight(b:csv_column)<CR>
-"nnoremap <silent> <buffer> gm :call <SID>Focus_Column(b:csv_column)<CR>
-"nnoremap <silent> <buffer> <LocalLeader>J J
-"nnoremap <silent> <buffer> <LocalLeader>K K
-" 
-"" The column highlighting is window-local, not buffer-local, so it can persist
-"" even when the filetype is undone or the buffer changed.
-"execute 'augroup csv' . bufnr('')
-"  autocmd!
-"  " These events only highlight in the current window.
-"  " Note: Highlighting gets slightly confused if the same buffer is present in
-"  " two split windows next to each other, because then the events aren't fired.
-"  autocmd BufLeave <buffer> silent call s:Highlight(0)
-"  autocmd BufEnter <buffer> silent call s:Highlight(b:csv_column)
-"augroup END
-"
