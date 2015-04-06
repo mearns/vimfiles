@@ -10,3 +10,24 @@
 [submodule "vimfiles/bundle/vim-snippets"]
 	path = vimfiles/bundle/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
+[submodule "vimfiles/bundle/nerdtree"]
+	path = vimfiles/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vimfiles/bundle/taboo.vim"]
+	path = vimfiles/bundle/taboo.vim
+	url = https://github.com/gcmt/taboo.vim.git
+[submodule "vimfiles/bundle/tagbar"]
+	path = vimfiles/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar.git
+[submodule "vimfiles/bundle/vim-go"]
+	path = vimfiles/bundle/vim-go
+	url = https://github.com/fatih/vim-go.git
+[submodule "vimfiles/bundle/vim-jsx"]
+	path = vimfiles/bundle/vim-jsx
+	url = https://github.com/mxw/vim-jsx.git
+[submodule "vimfiles/bundle/vim-less"]
+	path = vimfiles/bundle/vim-less
+	url = https://github.com/groenewege/vim-less.git
+[submodule "vimfiles/bundle/vim-repeat"]
+	path = vimfiles/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
