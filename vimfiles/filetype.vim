@@ -31,7 +31,7 @@ endfunction
 
 augroup filetypedetect
 
-    au! BufNewFile,BufRead *.vimcons setf vimcons
+    au! BufNewFile,BufRead *.vimcons,*.vcl setf vimcons
 
     au! BufNewFile,BufRead *.jelly setf xml.jelly
     
