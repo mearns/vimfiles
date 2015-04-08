@@ -10,15 +10,19 @@ endif
 
 set fdm=syntax
 
-syn match cmdLineCmdArgs    '\(^>\s*\S*\s\+\)\@<=.*'
-syn match cmdLineCmd    '\(^>\s*\)\@<=\S*'
-syn match cmdLinePrompt '^>\s*'
-syn match cmdLineOutput contained '\(^\s\{4}\)\@<=.*'
 syn match cmdLineComment '#.*'
+syn match cmdLineCmdArgs    '\(^\!\?>\s*\S*\s\+\)\@<=.*'
+syn match cmdLineCmd    '\(^\!\?>\s*\)\@<=\S*'
+syn match cmdLinePrompt '^\!\?>\s*'
+syn match cmdLineOutput contained '\(^\s\{4}\)\@<=.*'
+syn match cmdLineMeta contained '^\*\* .*$'
+syn match cmdLineError contained '^\!\! .*$'
 
-syn region cmdLineBlock start="^>\s*.*" end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 keepend contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutputBlock,cmdLineOutput
-syn region cmdLineOutputBlock start='^\s\{4}' end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 fold keepend contained contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutput
+"syn region cmdLineBlock start="^\!\?>\s*.*" end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 keepend contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutputBlock,cmdLineOutput,cmdLineMeta,cmdLineError
+syn region cmdLineOutputBlock start='^\s\{4}' start='^\*\* ' start='\!\! ' end='\(^$\)\@='re=s-1 end='\(^>\)\@='re=s-1 end='^\(\s\{4}\|\*\* \|\!\! \)\@!'re=s-1 fold keepend contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutput,cmdLineMeta,cmdLineError
 
+"syntax include @javascript syntax/javascript.vim
+"syntax region javascript_Snipper matchgroup=Snip start='^:ft:\sjavascript\>' end='^$' contains=@javascript
 
 " Define the default highlighting.
 " Only used when an item doesn't have highlighting yet
@@ -35,8 +39,9 @@ else
 endif
 
 hi def link cmdLineComment Comment
+hi def link cmdLineMeta PreProc
+hi def link cmdLineError Error
 
-"hi def link diffChanged		PreProc
 "hi def link diffAdded		Identifier
 "hi def link diffComment		Comment
 

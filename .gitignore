@@ -1,5 +1,6 @@
 
 *.sw[mnop]
+*.py[oc]
 
 .svn
 _viminfo
