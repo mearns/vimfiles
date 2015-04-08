@@ -14,6 +14,7 @@ syn match cmdLineCmdArgs    '\(^>\s*\S*\s\+\)\@<=.*'
 syn match cmdLineCmd    '\(^>\s*\)\@<=\S*'
 syn match cmdLinePrompt '^>\s*'
 syn match cmdLineOutput contained '\(^\s\{4}\)\@<=.*'
+syn match cmdLineComment '#.*'
 
 syn region cmdLineBlock start="^>\s*.*" end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 keepend contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutputBlock,cmdLineOutput
 syn region cmdLineOutputBlock start='^\s\{4}' end='\(^$\|^\s\{0,3}\_S\|^>\)\@='re=s-1 fold keepend contained contains=cmdLineCmdArgs,cmdLineCmd,cmdLinePrompt,cmdLineOutput
@@ -32,6 +33,9 @@ if &background == 'dark'
 else
   hi def link cmdLineOutput cmdLineOutputDark
 endif
+
+hi def link cmdLineComment Comment
+
 "hi def link diffChanged		PreProc
 "hi def link diffAdded		Identifier
 "hi def link diffComment		Comment
