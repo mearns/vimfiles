@@ -1,5 +1,6 @@
 import inspect
 import functools
+import os.path
 
 try:
     import slugify as python_slugify
@@ -97,4 +98,16 @@ def slugify(snip, text=None):
             elif c.isspace():
                 slug += '-'
         snip.rv = slug
+
+def explodepath(path):
+    """
+    Explodes a path into all of it's parts.
+    """
+    parts=[]
+    (path, tail)=os.path.split( path)
+    while path and tail:
+         parts.append( tail)
+         (path,tail)=os.path.split(path)
+    parts.append( os.path.join(path,tail) )
+    return map( os.path.normpath, parts)[::-1]
 

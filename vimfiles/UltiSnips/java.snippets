@@ -1,0 +1,33 @@
+
+extends _common_
+
+global !p
+
+#Import from vimfiles/pythonx/
+import _snippets
+reload(_snippets)
+_snippets.load(globals(), snip)
+
+import os.path
+
+def getPackageName(path):
+	path = os.path.abspath(path)
+	pathparts = _snippets.explodepath(path)
+	for i, part in enumerate(pathparts):
+		partl = part.lower()
+		if partl == 'java':
+			break
+	else:
+		return "package <UNKNOWN>;"
+
+	return 'package %s;' % ('.'.join(pathparts[i+1:-1]))
+
+endglobal
+
+
+snippet package "Set the package line for the file."
+`!p snip.rv = getPackageName(path)`
+endsnippet
+
+
+
