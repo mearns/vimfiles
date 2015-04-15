@@ -42,6 +42,7 @@ augroup filetypedetect
 
     au! BufNewFile,BufRead *.tags   setf tags
 
+    au! BufNewFile,BufRead *.sem    setf sem
 
     " scons files
     au! BufNewFile,BufRead SConstruct setf python.sconstruct

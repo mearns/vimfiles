@@ -8,6 +8,8 @@ if exists("b:current_syntax")
   finish
 endif
 
+let b:current_syntax = "vimcons"
+
 set fdm=syntax
 
 syn match cmdLineComment '#.*'
@@ -46,7 +48,6 @@ hi def link cmdLineError Error
 "hi def link diffComment		Comment
 
 
-let b:current_syntax = "diff"
 
 " vim: ts=8 sw=2
 

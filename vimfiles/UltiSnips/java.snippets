@@ -35,3 +35,28 @@ snippet @O "An @Override annotation"
 
 endsnippet
 
+snippet beanprop "A bean property with setter and getter"
+private ${1:Object} ${2:fieldName};`!p
+fieldName = t[2]
+propName = fieldName[0].upper() + fieldName[1:]
+`
+
+public $1 get`!p
+snip.rv = propName
+`() {
+	return this.$2;
+}
+
+public void set`!p
+snip.rv = propName
+`($1 $2) {
+	this.$2 = $2;
+}
+endsnippet
+
+snippet toString "Generate a toString method."
+public String toString() {
+	return ${1:"a string"};
+}
+endsnippet
+
