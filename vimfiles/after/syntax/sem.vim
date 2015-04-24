@@ -12,30 +12,28 @@ let b:current_syntax = 'sem'
 
 set fdm=syntax
 
-syn match semReference '&[-a-zA-Z0-9_]\+'
-syn match semReference '&{[^}]*}'
+let s:name = '[-_\.a-zA-Z0-9]*[_a-zA-Z0-9]\+'
 
-syn match semRelationship '#[-a-zA-Z0-9_]\+'
+exec "syn match semReference '&" . s:name . "'"
+
+exec "syn match semRelationship '#" . s:name . "'"
 syn match semRelationship '#<\@='
-syn match semRelationship '#{[^}]*}'
 
-syn match semInvRelationship '\~[-a-zA-Z0-9_]\+'
+exec "syn match semInvRelationship '\\~" . s:name . "'"
 syn match semInvRelationship '\~<\@='
-syn match semInvRelationship '\~{[^}]*}'
 
 "syn match semCurlyBrace '[{}]' contained
 syn match semWhisper '<[^>]*>'
 
-syn match semId '@[-a-zA-Z0-9_]\+'
+exec "syn match semId '@" . s:name . "'"
 syn match semId '@<\@='
-syn match semId '@{[^}]*}'
 
 syn match semCompoundIdDelim '@\[' contained
 syn match semCompoundIdDelim '\]' contained
 
 syn region semCompoundId start='@\[' end='\]' contains=semId,semCompoundIdDelim keepend
 
-syn region semBlock start='@\[[^\]]*\]{' start='@\[[^\]]*\]<[^>]*>{' start='[#@~][-a-zA-Z0-9_]\+{' start='[#@~][-a-zA-Z0-9_]\+<[^>]*>{' start='[#@~]{[^}]*}<[^>]*>{' start='[#@~]<[^>]*>{' start='[#@~]{[^}]*}{' end='}' fold contains=semId,semRelationship,semCompoundId,semCompoundIdDelim,semScope,semWhisper,semBlock,semInvRelationship,semReference
+syn region semBlock start='{' end='}' fold contains=semId,semRelationship,semCompoundId,semCompoundIdDelim,semScope,semWhisper,semBlock,semInvRelationship,semReference
 
 
 " Define the default highlighting.
