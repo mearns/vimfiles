@@ -37,6 +37,7 @@ execute pathogen#infect()
     Bundle 'Lokaltog/vim-easymotion'
     Bundle 'SirVer/ultisnips'
     Bundle 'honza/vim-snippets'
+    Bundle 'wakatime/vim-wakatime'
 
 """ BASIC CONFIGURATION 
 
