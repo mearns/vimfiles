@@ -25,19 +25,19 @@ execute pathogen#infect()
 " Setup vundle
     "This is just temporary
     filetype off
-    let s:bundle_path = JoinPath(s:MYVIMFILES, 'bundle')
-    let s:vundle_path = JoinPath(s:bundle_path, 'vundle', '')
-    exec 'set runtimepath+=' . fnameescape(s:vundle_path)
-    call vundle#rc(s:bundle_path)
+    "let s:bundle_path = JoinPath(s:MYVIMFILES, 'bundle')
+    "let s:vundle_path = JoinPath(s:bundle_path, 'vundle', '')
+    "exec 'set runtimepath+=' . fnameescape(s:vundle_path)
+    "call vundle#rc(s:bundle_path)
 
     "Let vundle manage itself
-    Bundle 'gmarik/vundle'
+    "Bundle 'gmarik/vundle'
 
     "Load additional bundles
-    Bundle 'Lokaltog/vim-easymotion'
-    Bundle 'SirVer/ultisnips'
-    Bundle 'honza/vim-snippets'
-    Bundle 'wakatime/vim-wakatime'
+    "Bundle 'Lokaltog/vim-easymotion'
+    ""Bundle 'SirVer/ultisnips'
+    "Bundle 'honza/vim-snippets'
+    "Bundle 'wakatime/vim-wakatime'
 
 """ BASIC CONFIGURATION 
 
@@ -140,60 +140,60 @@ execute pathogen#infect()
 
     "Some SCONS stuff. This generally needs to come first because subsequent
     "things will match it.
-    set errorformat=%-Gscons:\ Reading\ SConscript\ files\ ...
-    set errorformat+=%-Gscons:\ done\ reading\ SConscript\ files.
-    set errorformat+=%-Gscons:\ Building\ targets\ ...
-    set errorformat+=%-Gscons:\ `%[%^']%\\+'\ is\ up\ to\ date.
-    set errorformat+=%-Gscons:\ done\ building\ targets.
-    set errorformat+=%-Gscons:\ Cleaning\ targets\ ...
-    set errorformat+=%+Iscons:\ done\ cleaning\ targets.
-    set errorformat+=%+Escons:\ \*\*\*\ Do\ not\ know\ how\ to\ %m
-    set errorformat+=%+Escons:\ building\ terminated\ because\ of\ errors.
-    set errorformat+=SCons\ Error:\ %m
+    "set errorformat=%-Gscons:\ Reading\ SConscript\ files\ ...
+    "set errorformat+=%-Gscons:\ done\ reading\ SConscript\ files.
+    "set errorformat+=%-Gscons:\ Building\ targets\ ...
+    "set errorformat+=%-Gscons:\ `%[%^']%\\+'\ is\ up\ to\ date.
+    "set errorformat+=%-Gscons:\ done\ building\ targets.
+    "set errorformat+=%-Gscons:\ Cleaning\ targets\ ...
+    "set errorformat+=%+Iscons:\ done\ cleaning\ targets.
+    "set errorformat+=%+Escons:\ \*\*\*\ Do\ not\ know\ how\ to\ %m
+    "set errorformat+=%+Escons:\ building\ terminated\ because\ of\ errors.
+    "set errorformat+=SCons\ Error:\ %m
 
     "A general USAGE message
-    set errorformat+=%+Iusage:\ %m
+    "set errorformat+=%+Iusage:\ %m
 
     "HG Stat output.
-    set errorformat+=%+IM\ %f
-    set errorformat+=%+IA\ %f
-    set errorformat+=%+IR\ %f
-    set errorformat+=%+IC\ %f
-    set errorformat+=%+I!\ %f
-    set errorformat+=%+I?\ %f
-    set errorformat+=%+II\ %f
+    "set errorformat+=%+IM\ %f
+    "set errorformat+=%+IA\ %f
+    "set errorformat+=%+IR\ %f
+    "set errorformat+=%+IC\ %f
+    "set errorformat+=%+I!\ %f
+    "set errorformat+=%+I?\ %f
+    "set errorformat+=%+II\ %f
 
     "Ignore this "heading" error message from mingw, just print it as a
     "non-error informational line (unfortunately, it still matches this
     "pattern, so it's marked as "valid" and treated as the first error.
     "So actually, I'm not sure what good this does.
-    set errorformat+=%+G%f:\ In\ function\ '%m':
+    "set errorformat+=%+G%f:\ In\ function\ '%m':
 
     "Change directory in scons (for -u)
-    set errorformat+=%-Dscons:\ Entering\ directory\ `%f'
+    "set errorformat+=%-Dscons:\ Entering\ directory\ `%f'
 
     "My normal debugging
-    set errorformat+=DBG:\ %f:%l:\ %m
+    "set errorformat+=DBG:\ %f:%l:\ %m
 
-    set errorformat+=windres:\ %f:%l:\ %m   " windres
+    "set errorformat+=windres:\ %f:%l:\ %m   " windres
 
     
-    set errorformat+=%*[^:].obj:%f:(%*[^)]):\ %m        " gcc linker errors
-    set errorformat+=%*[^:].o:%f:(%*[^)]):\ %m    
+    "set errorformat+=%*[^:].obj:%f:(%*[^)]):\ %m        " gcc linker errors
+    "set errorformat+=%*[^:].o:%f:(%*[^)]):\ %m    
 
-    set errorformat+=\"%f\"\\,\ line\ %l:\ %m	" Texas Instruments cl200 compiler
-    set errorformat+=%f(%l)\ :\ %t%*\\D%n:\ %m
-    set errorformat+=%*[^\"]\"%f\"%*\\D%l:\ %m
-    set errorformat+=%f(%l)\ :\ %m
-    set errorformat+=%f:%l:%c:%m
-    set errorformat+=%f(%l):%m
-    set errorformat+=%f:%l:%m
-    set errorformat+=%f\|%l\|\ %m
-    set errorformat+=%f:%l.%c-%*[0-9]:\ %m		" bison
-    set errorformat+=%f:%l.%c:\ %m			" bison
-    set errorformat+=%f:\ %m			" bison
-    set errorformat+=%*[\"]%f%*[\"]\\,\ line\ %l:\ %m	" flex
-    set errorformat+=%f:%l:\ %m	" mingw
+    "set errorformat+=\"%f\"\\,\ line\ %l:\ %m	" Texas Instruments cl200 compiler
+    "set errorformat+=%f(%l)\ :\ %t%*\\D%n:\ %m
+    "set errorformat+=%*[^\"]\"%f\"%*\\D%l:\ %m
+    "set errorformat+=%f(%l)\ :\ %m
+    "set errorformat+=%f:%l:%c:%m
+    "set errorformat+=%f(%l):%m
+    "set errorformat+=%f:%l:%m
+    "set errorformat+=%f\|%l\|\ %m
+    "set errorformat+=%f:%l.%c-%*[0-9]:\ %m		" bison
+    "set errorformat+=%f:%l.%c:\ %m			" bison
+    "set errorformat+=%f:\ %m			" bison
+    "set errorformat+=%*[\"]%f%*[\"]\\,\ line\ %l:\ %m	" flex
+    "set errorformat+=%f:%l:\ %m	" mingw
 
     "Use grep for grep
     set grepprg=grep\ -rn
@@ -246,16 +246,16 @@ execute pathogen#infect()
     nmap <C-S-F2> :so ~/_vimsessions/
 
    "map buffer numbers
-    nnoremap <Leader>1 :1b<CR>
-    nnoremap <Leader>2 :2b<CR>
-    nnoremap <Leader>3 :3b<CR>
-    nnoremap <Leader>4 :4b<CR>
-    nnoremap <Leader>5 :5b<CR>
-    nnoremap <Leader>6 :6b<CR>
-    nnoremap <Leader>7 :7b<CR>
-    nnoremap <Leader>8 :8b<CR>
-    nnoremap <Leader>9 :9b<CR>
-    nnoremap <Leader>0 :10b<CR>
+    "nnoremap <Leader>1 :1b<CR>
+    "nnoremap <Leader>2 :2b<CR>
+    "nnoremap <Leader>3 :3b<CR>
+    "nnoremap <Leader>4 :4b<CR>
+    "nnoremap <Leader>5 :5b<CR>
+    "nnoremap <Leader>6 :6b<CR>
+    "nnoremap <Leader>7 :7b<CR>
+    "nnoremap <Leader>8 :8b<CR>
+    "nnoremap <Leader>9 :9b<CR>
+    "nnoremap <Leader>0 :10b<CR>
 
     nmap <silent> <Leader>ev :EditVimrc<CR>
     nmap <silent> <Leader>sv :Vimrc<CR>
@@ -287,27 +287,27 @@ execute pathogen#infect()
 
     "In normal mode (map) and in insert mode and on the command line (map!), use alt+ standard nav keys (hjkl)
     " to navigate
-    map <M-h> <Left>
-    map! <M-h> <Left>
-    map <M-l> <Right>
-    map! <M-l> <Right>
-    map <M-j> <Down>
-    map! <M-j> <Down>
-    map <M-k> <Up>
-    map! <M-k> <Up>
-    "Likewise, use alt+ w, b, and e for word nav (but these don't work on the command line)
-    imap <M-w> <C-o>w
-    map <M-w> w
-    imap <M-b> <C-o>b
-    map <M-b> b
-    imap <M-e> <C-o>e
-    map <M-e> e
-    imap <M-S-W> <C-o>W
-    map <M-S-W> W
-    imap <M-S-B> <C-o>B
-    map <M-S-B> B
-    imap <M-S-E> <C-o>E
-    map <M-S-E> E
+    "map <M-h> <Left>
+    "map! <M-h> <Left>
+    "map <M-l> <Right>
+    "map! <M-l> <Right>
+    "map <M-j> <Down>
+    "map! <M-j> <Down>
+    "map <M-k> <Up>
+    "map! <M-k> <Up>
+    ""Likewise, use alt+ w, b, and e for word nav (but these don't work on the command line)
+    "imap <M-w> <C-o>w
+    "map <M-w> w
+    "imap <M-b> <C-o>b
+    "map <M-b> b
+    "imap <M-e> <C-o>e
+    "map <M-e> e
+    "imap <M-S-W> <C-o>W
+    "map <M-S-W> W
+    "imap <M-S-B> <C-o>B
+    "map <M-S-B> B
+    "imap <M-S-E> <C-o>E
+    "map <M-S-E> E
 
     "We already have CTRL-H for backspace and CTRL-M for enter. Let's do ALT-X for delete.
     map! <M-x> <del>
