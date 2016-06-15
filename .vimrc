@@ -6,10 +6,12 @@
 
 let s:this_dir = expand('<sfile>:p:h')
 
-exec 'set runtimepath+=' . fnameescape(s:this_dir) . '/vimfiles'
-exec 'set runtimepath+=' . fnameescape(s:this_dir) . '/vimfiles/after'
+let s:vim_vcs_dir = s:this_dir . '/.vim'
 
-let s:vimrc = s:this_dir . '/vim_rc/_vimrc'
+exec 'set runtimepath+=' . fnameescape(s:vim_vcs_dir) . '/vimfiles'
+exec 'set runtimepath+=' . fnameescape(s:vim_vcs_dir) . '/vimfiles/after'
+
+let s:vimrc = s:vim_vcs_dir . '/vim_rc/_vimrc'
 
 exec 'source ' . s:vimrc
 
@@ -22,4 +24,3 @@ command! Vimrc source $MYVIMRC
 exec 'command! EditVimrc e ' . s:vimrc
 exec 'command! TabnewVimrc tabnew ' . s:vimrc
 exec 'command! SplitVimrc split ' . s:vimrc
-
