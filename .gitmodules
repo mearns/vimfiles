@@ -36,7 +36,7 @@
 	url = https://github.com/wakatime/vim-wakatime.git
 [submodule "vimfiles/bundle/vim-gradle"]
 	path = vimfiles/bundle/vim-gradle
-	url = https://github.com/mearns/vim-gradle.git
+	url = git@github.com:mearns/vim-gradle.git
 [submodule "vimfiles/bundle/vim-ps1"]
 	path = vimfiles/bundle/vim-ps1
 	url = https://github.com/PProvost/vim-ps1.git
